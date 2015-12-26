@@ -5,7 +5,8 @@ import os
 import sys
 import atexit
 import subprocess
-from scons_support import *
+import fnmatch
+#from scons_support import *
 
 def print_build_failures():
     from SCons.Script import GetBuildFailures
@@ -24,12 +25,22 @@ def run_tests(env):
         else:
             print "FAIL: %s" % os.path.basename(cmd)
         
-        
-
-
 def unitTestAction(target, source, env):
     print "PASS: %s", str(source[0].path)
 
+        
+def FindHeaders(rdir, filter, bld_dir):
+    headers = []
+    for root, dirs, files in os.walk(rdir):
+        if os.path.abspath(root).startswith(os.path.abspath(bld_dir)):
+            continue
+        for fn in fnmatch.filter(files, filter):
+            afn  = os.path.join(root, fn)
+            headers.append((afn, fn))
+    return headers
+
+
+    
 
 # Get the mode flag from command line
 # Default is the release
