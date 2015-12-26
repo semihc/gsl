@@ -1,0 +1,25 @@
+Import('*')
+
+srcs = Split('add.c  get.c init.c params.c reset.c file.c pdf.c add2d.c get2d.c init2d.c params2d.c reset2d.c file2d.c pdf2d.c calloc_range.c calloc_range2d.c copy.c copy2d.c maxval.c maxval2d.c oper.c oper2d.c stat.c stat2d.c')
+objs = env.Object(srcs)
+
+libname = 'gslhistogram'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'histogram_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe_srcs = Split('test.c test1d.c test2d.c test1d_resample.c test2d_resample.c test1d_trap.c test2d_trap.c')
+exe = env.Program(exename, exe_srcs, LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

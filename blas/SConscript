@@ -1,0 +1,10 @@
+Import('*')
+
+srcs = [ 'blas.c' ]
+objs = env.Object(srcs)
+
+libname = 'gslblas'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+

@@ -1,0 +1,23 @@
+#!python
+# -*-python-*-
+
+Import('*')
+
+# This is required to get past compile errors in gcc
+ccflags=''
+if env['CC']=='gcc':
+    #print env['PLATFORM']
+    ccflags='-ansi'
+    
+
+srcs =  Glob('*.c')
+objs = env.Object(srcs, CCFLAGS=ccflags)
+
+libname = 'utils'
+lib = env.StaticLibrary(libname, objs)
+
+env['PRJ_OBJS'][libname] = objs
+env['PRJ_LIBS'][libname] = lib
+
+
+

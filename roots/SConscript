@@ -1,0 +1,23 @@
+Import('*')
+
+srcs = Split('bisection.c brent.c falsepos.c newton.c  secant.c steffenson.c convergence.c fsolver.c fdfsolver.c')
+objs = env.Object(srcs)
+
+libname = 'gslroots'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'roots_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['utils'],
+    env['PRJ_LIBS']['gslsys'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslieeeutils']
+]
+exe_srcs = Split('test.c test_funcs.c')
+exe = env.Program(exename, exe_srcs, LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

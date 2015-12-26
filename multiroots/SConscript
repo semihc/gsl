@@ -1,0 +1,31 @@
+Import('*')
+
+srcs = Split('fdjac.c fsolver.c fdfsolver.c convergence.c  newton.c gnewton.c dnewton.c broyden.c hybrid.c hybridj.c')
+objs = env.Object(srcs)
+
+libname = 'gslmultiroots'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'multiroots_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gsllinalg'],
+    env['PRJ_LIBS']['gslblas'],
+    env['PRJ_LIBS']['gslcblas'],
+    env['PRJ_LIBS']['gslpermutation'],
+    env['PRJ_LIBS']['gslmatrix'],
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslcomplex'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe_srcs = Split('test.c test_funcs.c')
+exe = env.Program(exename, exe_srcs, LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

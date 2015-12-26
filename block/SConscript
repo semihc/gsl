@@ -1,0 +1,22 @@
+Import('*')
+
+srcs = Split('init.c file.c block.c')
+objs = env.Object(srcs)
+
+libname = 'gslblock'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'block_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['utils'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gslsys']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

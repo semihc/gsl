@@ -1,0 +1,26 @@
+Import('*')
+
+srcs = Split(' bernoulli.c beta.c bigauss.c binomial.c cauchy.c chisq.c dirichlet.c discrete.c erlang.c exponential.c exppow.c fdist.c flat.c gamma.c gauss.c gausszig.c gausstail.c geometric.c gumbel.c hyperg.c laplace.c levy.c logarithmic.c logistic.c lognormal.c multinomial.c nbinomial.c pareto.c pascal.c poisson.c rayleigh.c shuffle.c sphere.c tdist.c weibull.c landau.c binomial_tpe.c')
+objs = env.Object(srcs)
+
+libname = 'gslrandist'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'randist_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gslspecfunc'],
+    env['PRJ_LIBS']['gslintegration'],
+    env['PRJ_LIBS']['gslcomplex'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

@@ -1,0 +1,29 @@
+Import('*')
+
+srcs = Split('spcompress.c spcopy.c spgetset.c spmatrix.c spoper.c spprop.c spswap.c')
+objs = env.Object(srcs)
+
+libname = 'gslspmatrix'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'spmatrix_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslspblas'],
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gslblas'],
+    env['PRJ_LIBS']['gslcblas'],
+    env['PRJ_LIBS']['gslmatrix'],
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

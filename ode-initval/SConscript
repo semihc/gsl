@@ -1,0 +1,31 @@
+Import('*')
+
+srcs = Split('control.c cstd.c cscal.c evolve.c step.c rk2.c rk2imp.c rk2simp.c rk4.c rk4imp.c rkf45.c rk8pd.c rkck.c bsimp.c gear1.c gear2.c')
+objs = env.Object(srcs)
+
+libname = 'gslodeiv'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'odeiv_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gsllinalg'],
+    env['PRJ_LIBS']['gslblas'],
+    env['PRJ_LIBS']['gslcblas'],
+    env['PRJ_LIBS']['gslmatrix'],
+    env['PRJ_LIBS']['gslpermutation'],
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslcomplex'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils'],
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

@@ -1,0 +1,34 @@
+Import('*')
+
+srcs = Split('multilinear.c multiwlinear.c work.c lmniel.c lmder.c fsolver.c fdfsolver.c fdfridge.c fdjac.c convergence.c gradient.c covar.c multirobust.c robust_wfun.c multireg.c')
+objs = env.Object(srcs)
+
+libname = 'gslmultifit'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'multifit_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gsllinalg'],
+    env['PRJ_LIBS']['gslpermutation'],
+    env['PRJ_LIBS']['gslspecfunc'],
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gslblas'],
+    env['PRJ_LIBS']['gslcblas'],
+    env['PRJ_LIBS']['gslstatistics'],
+    env['PRJ_LIBS']['gslmatrix'],
+    env['PRJ_LIBS']['gslcomplex'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslsort'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

@@ -1,0 +1,24 @@
+Import('*')
+
+srcs = Split('init.c matrix.c file.c rowcol.c swap.c copy.c minmax.c prop.c oper.c getset.c view.c submatrix.c')
+objs = env.Object(srcs)
+
+libname = 'gslmatrix'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'matrix_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

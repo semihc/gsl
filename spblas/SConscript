@@ -1,0 +1,39 @@
+Import('*')
+
+srcs = Split('spdgemm.c spdgemv.c')
+objs = env.Object(srcs)
+
+libname = 'gslspblas'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+# This code block is necessary to fix cyclic dependency between
+# spblas and spmatrix modules.
+import os.path
+if env['PLATFORM'] == 'win32':
+    gslspmatrix = 'gslspmatrix.lib'
+else:
+    gslspmatrix = 'libgslspmatrix.a'
+libgslspmatrix = os.path.join(env.subst("$PRJ_BLD/spmatrix"), gslspmatrix)
+
+exename = 'spblas_test'
+exelibs = [
+    lib,
+    File(libgslspmatrix),
+    #env['PRJ_LIBS']['gslspmatrix']
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gslblas'],
+    env['PRJ_LIBS']['gslcblas'],
+    env['PRJ_LIBS']['gslmatrix'],
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils'],
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

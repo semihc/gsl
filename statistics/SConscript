@@ -1,0 +1,25 @@
+Import('*')
+
+srcs = Split('mean.c variance.c absdev.c skew.c kurtosis.c lag1.c p_variance.c minmax.c ttest.c median.c covariance.c quantiles.c wmean.c wvariance.c wabsdev.c wskew.c wkurtosis.c')
+objs = env.Object(srcs)
+
+libname = 'gslstatistics'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'statistics_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslsort'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe_srcs = Split('test.c test_nist.c')
+exe = env.Program(exename, exe_srcs, LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

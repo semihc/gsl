@@ -1,0 +1,13 @@
+Import('*')
+
+exename = 'const_test'
+exelibs = [
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

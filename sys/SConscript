@@ -1,0 +1,10 @@
+Import('*')
+
+srcs = Split('minmax.c prec.c hypot.c log1p.c expm1.c coerce.c invhyp.c pow_int.c infnan.c fdiv.c fcmp.c ldfrexp.c')
+objs = env.Object(srcs)
+
+libname = 'gslsys'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+

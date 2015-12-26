@@ -1,0 +1,23 @@
+Import('*')
+
+srcs = Split('qk15.c qk21.c qk31.c qk41.c qk51.c qk61.c qk.c qng.c qag.c qags.c qagp.c workspace.c qcheb.c qawc.c qmomo.c qaws.c qmomof.c qawo.c qawf.c glfixed.c cquad.c')
+objs = env.Object(srcs)
+
+libname = 'gslintegration'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'integration_test'
+exelibs = [
+    lib,
+    #env['PRJ_LIBS']['utils'],
+    env['PRJ_LIBS']['gslsys'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslieeeutils']
+]
+exe_srcs = Split('test.c tests.c')
+exe = env.Program(exename, exe_srcs, LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

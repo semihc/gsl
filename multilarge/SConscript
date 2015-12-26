@@ -1,0 +1,31 @@
+Import('*')
+
+srcs = Split('multilarge.c normal.c tsqr.c')
+objs = env.Object(srcs)
+
+libname = 'gslmultilarge'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'multilarge_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslmultifit'],
+    env['PRJ_LIBS']['gslblas'],
+    env['PRJ_LIBS']['gslcblas'],
+    env['PRJ_LIBS']['gsllinalg'],
+    env['PRJ_LIBS']['gslmatrix'],
+    env['PRJ_LIBS']['gslcomplex'],
+    env['PRJ_LIBS']['gslvector'],
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

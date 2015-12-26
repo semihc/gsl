@@ -1,0 +1,23 @@
+Import('*')
+
+srcs = Split('init.c file.c vector.c copy.c swap.c prop.c minmax.c oper.c reim.c subvector.c view.c')
+objs = env.Object(srcs)
+
+libname = 'gslvector'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'vector_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslblock'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

@@ -1,0 +1,22 @@
+Import('*')
+
+srcs = Split('levin_u.c levin_utrunc.c work_u.c work_utrunc.c')
+objs = env.Object(srcs)
+
+libname = 'gslsum'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'sum_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+

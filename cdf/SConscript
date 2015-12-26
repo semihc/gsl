@@ -1,0 +1,26 @@
+Import('*')
+
+srcs = Split('beta.c betainv.c cauchy.c cauchyinv.c chisq.c chisqinv.c exponential.c exponentialinv.c exppow.c fdist.c fdistinv.c flat.c flatinv.c gamma.c gammainv.c gauss.c gaussinv.c gumbel1.c gumbel1inv.c gumbel2.c gumbel2inv.c laplace.c laplaceinv.c logistic.c logisticinv.c lognormal.c lognormalinv.c pareto.c paretoinv.c rayleigh.c rayleighinv.c tdist.c tdistinv.c weibull.c weibullinv.c binomial.c poisson.c geometric.c nbinomial.c pascal.c hypergeometric.c')
+objs = env.Object(srcs)
+
+libname = 'gslcdf'
+lib = env.StaticLibrary(libname, objs)
+env['PRJ_LIBS'][libname] = lib
+env['PRJ_OBJS'][libname] = objs
+
+exename = 'cdf_test'
+exelibs = [
+    lib,
+    env['PRJ_LIBS']['gslrandist'],
+    env['PRJ_LIBS']['gslrng'],
+    env['PRJ_LIBS']['gslspecfunc'],
+    env['PRJ_LIBS']['gslcomplex'],
+    env['PRJ_LIBS']['gslieeeutils'],
+    env['PRJ_LIBS']['gsltest'],
+    env['PRJ_LIBS']['gslerr'],
+    env['PRJ_LIBS']['gslsys'],
+    #env['PRJ_LIBS']['utils']
+]
+exe = env.Program(exename, 'test.c', LIBS=exelibs)
+env['PRJ_EXES'][exename] = exe
+
