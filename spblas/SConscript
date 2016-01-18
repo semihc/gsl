@@ -15,7 +15,7 @@ if env['PLATFORM'] == 'win32':
     gslspmatrix = 'gslspmatrix.lib'
 else:
     gslspmatrix = 'libgslspmatrix.a'
-libgslspmatrix = os.path.join(env.subst("$PRJ_BLD/spmatrix"), gslspmatrix)
+libgslspmatrix = os.path.join(env.subst("$PRJ_BLD_VDIR/spmatrix"), gslspmatrix)
 
 exename = 'spblas_test'
 exelibs = [
