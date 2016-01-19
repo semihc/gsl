@@ -119,28 +119,3 @@ env['PRJ_TSTS'] = env['PRJ_EXES']
 if env['run_tests']:
     SConsLib.runTests(env)
 
-    
-"""
-#ERASE later
-
-# Create a "test" target for all the unit tests 
-for exe in env['PRJ_EXES'].values():
-    ta = env.Alias('test', exe, exe[0].abspath)
-    #TODO: Review later
-    #ta = env.Alias('test', exe, unitTestAction)
-    env.AlwaysBuild(ta)
-    #print "=>%s" % exe[0].path
-
-
-if use_test:
-    for exe in env['PRJ_EXES'].values():
-        cmd = exe[0].abspath
-        print "Executing: %s" % cmd
-        rv = subprocess.call(cmd)
-        if rv == 0:
-            print "PASS: %s" % os.path.basename(cmd)
-        else:
-            print "FAIL: %s" % os.path.basename(cmd)
-        
-"""
-

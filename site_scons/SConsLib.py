@@ -3,7 +3,7 @@
 #
 # SCons extension library for large C/C++ projects.
 # Author: Semih Cemiloglu <semih.cemiloglu@gmail.com>
-# Initial: 2016-01-16
+# Initial: 2016-01-18
 # This file and all associated files have 'BSD License' copyright terms
 #
 
@@ -113,7 +113,7 @@ def setupEnvironment(env):
             env.MergeFlags('-MTd -W1 -D_DEBUG -RTCs -Zi')
          else:
             env.MergeFlags('-MT -O1 -DNDEBUG')
-   elif linux in platform:
+   elif 'linux' in platform:
       # Replace LINKCOM to position LINKFLAGS at the very end of
       # link command line
       env.Replace(LINKCOM='$LINK -o $TARGET $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS $LINKFLAGS')
