@@ -97,7 +97,7 @@ def setupEnvironment(env):
       PRJ_OBJS     = {}
    )
 
-   # If any special prefix is requested
+   # I project install location (prefix) is specified
    if env['PREFIX']:
       env.AppendUnique(
          PRJ_INST_DIR = Dir(env['PREFIX']),

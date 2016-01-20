@@ -110,9 +110,12 @@ gsllib_fn = env.subst("$PRJ_BLD_LIB/gsl")
 gsllib = env.StaticLibrary(gsllib_fn, gsllib_objs)
 
 # Add a 'install' target for two special libraries
-env.Alias('install', env['PREFIX'])
-env.Install("$PRJ_INST_LIB", env['PRJ_LIBS']['gslcblas'])
-env.Install("$PRJ_INST_LIB", gsllib)
+# This will support calls to scons with "install" target
+# scons --prefix=/path/to/gsl install
+if env['PREFIX']:
+    env.Alias('install', env['PREFIX'])
+    env.Install("$PRJ_INST_LIB", env['PRJ_LIBS']['gslcblas'])
+    env.Install("$PRJ_INST_LIB", gsllib)
 
 # All executables in this project are tests also
 env['PRJ_TSTS'] = env['PRJ_EXES']
