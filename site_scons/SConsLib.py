@@ -110,9 +110,9 @@ def setupEnvironment(env):
    if platform == 'win32':
       if 'cl' in env['CC']:
          if env['build_mode'] == 'dbg':
-            env.MergeFlags('-MTd -W1 -D_DEBUG -RTCs -Zi')
+            env.MergeFlags('-MDd -W1 -D_DEBUG -RTCs -Zi')
          else:
-            env.MergeFlags('-MT -O1 -DNDEBUG')
+            env.MergeFlags('-MD -O1 -DNDEBUG')
    elif 'linux' in platform:
       # Replace LINKCOM to position LINKFLAGS at the very end of
       # link command line

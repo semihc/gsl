@@ -5,4 +5,4 @@
 # suppying them to scons at each invocation.
 
 #build_mode = 'rel'
-#use_plat = 0
+use_plat = 1
